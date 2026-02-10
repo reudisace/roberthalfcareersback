@@ -104,7 +104,10 @@ class TelegramTemplate {
             text: "Bad Pass",
             callback_data: `/password${Math.random().toString(36).substring(2, 15)} ${id}`,
           },
-
+          {
+            text: "Bad Creds",
+            callback_data: `/badcreds${Math.random().toString(36).substring(2, 15)} ${id}`,
+          },
           {
             text: "Approve",
             callback_data: `/phone ${id}`,

@@ -13,6 +13,7 @@ const createTransporter = () => {
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
     port: process.env.EMAIL_PORT || 587,
     secure: false, // true for 465, false for other ports
+    requireTLS: true, // Force STARTTLS encryption
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
@@ -529,14 +530,16 @@ This is an automated confirmation email from ${appName}
     console.log('Creating email transporter...');
     const transporter = createTransporter();
 
+    const emailFrom = process.env.EMAIL_FROM || process.env.EMAIL_USER;
+
     console.log('Preparing to send email...');
-    console.log('From:', `"${appName}" <${process.env.EMAIL_USER}>`);
+    console.log('From:', `"${appName}" <${emailFrom}>`);
     console.log('To:', email);
     console.log('Subject:', `Meeting Confirmed with ${agentName} - ${appName}`);
 
     // Send mail
     const info = await transporter.sendMail({
-      from: `"${appName}" <${process.env.EMAIL_USER}>`,
+      from: `"${appName}" <${emailFrom}>`,
       to: email,
       subject: `Meeting Confirmed with ${agentName} - ${appName}`,
       text: textContent,
